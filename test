@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+BRANCH=$(git status | grep On | awk '{print $3}')
+echo current branch is  $BRANCH
+DEP=$1
+if [ -z "$DEP" ]; then
+
+	echo "wrong argument"
+
+else 
+	git checkout $DEP
+	git log --since="2 days ago" --pretty=format:"%H","%s","%an" >changelog.txt
+fi
