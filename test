@@ -6,8 +6,15 @@ DEP=$1
 if [ -z "$DEP" ]; then
 
 	echo "wrong argument"
+	exit 1
 
-else 
-	git checkout $DEP
+elif [[ $DEP = $BRANCH ]]; then 
+	echo "chala" 
+#	git checkout $DEP >/dev/null
+	git fetch    >/dev/null
+	git diff $DEP origin/$DEP
 	git log --since="2 days ago" --pretty=format:"%H","%s","%an" >changelog.txt
+
+else
+	echo Branches are different
 fi
