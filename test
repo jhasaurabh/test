@@ -8,13 +8,15 @@ if [ -z "$DEP" ]; then
 	echo "wrong argument"
 	exit 1
 
-elif [[ $DEP = $BRANCH ]]; then 
-	echo "chala" 
+elif [[ $DEP = $BRANCH  &&  "$DEP" = +(dev|master) ]]; then  
 #	git checkout $DEP >/dev/null
 	git fetch    >/dev/null
-	git diff $DEP origin/$DEP
+	git diff --stat $DEP origin/$DEP
 	git log --since="2 days ago" --pretty=format:"%H","%s","%an" >changelog.txt
 
+elif [[ "${DEP}" != +(dev|master)  ]]; then
+	echo not a valid branch
+	exit 1
 else
-	echo Branches are different
+	echo "undefined for this branch"
 fi
